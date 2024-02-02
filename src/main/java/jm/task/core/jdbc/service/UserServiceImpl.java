@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Ошибка: " + e.getMessage());
         }
     }
-    public void createUsersTable() {//todo: в service - именно в данном слое - логи (их имитация)
+    public void createUsersTable() {
         userDaoJDBCImpl.createUsersTable();
     }
     public void dropUsersTable() {
