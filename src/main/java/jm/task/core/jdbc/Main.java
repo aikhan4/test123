@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
         UserServiceImpl userService = new UserServiceImpl();
 
@@ -27,7 +27,7 @@ public class Main {
         }
         userService.cleanUsersTable();
         userService.dropUsersTable();
-        userService.closeConnection();
+        userService.closeConnection(); // ... well
     }
 
 }

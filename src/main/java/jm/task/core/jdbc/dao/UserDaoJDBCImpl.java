@@ -9,6 +9,12 @@ import java.util.List;
 public class UserDaoJDBCImpl implements UserDao {
     private final Connection connection;
     private static final String createUsersQuery = "CREATE TABLE IF NOT EXISTS users (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), lastName VARCHAR(255), age TINYINT)";
+    private static final String dropUsersQuery = "DROP TABLE IF EXISTS ?";
+    private static final String insertUsersQuery = "INSERT INTO ? (name, lastName, age) VALUES (?, ?, ?)";
+    private static final String deleteUsersQuery = "DELETE FROM ? WHERE id = ?";
+    private static final String selectUsersQuery = "SELECT * FROM ?";
+    private static final String cleanUsersQuery = "DELETE FROM ?";
+
     public UserDaoJDBCImpl (Connection connection) {
         this.connection = connection;
     }
@@ -20,7 +26,7 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
     public void dropUsersTable() {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("DROP TABLE IF EXISTS ?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(dropUsersQuery)) {
             preparedStatement.setString(1, "users");
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -28,7 +34,7 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
     public void saveUser(String name, String lastName, byte age) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO ? (name, lastName, age) VALUES (?, ?, ?)")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertUsersQuery)) {
             preparedStatement.setString(1, "users");
             preparedStatement.setString(2, name);
             preparedStatement.setString(3, lastName);
@@ -39,7 +45,7 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
     public void removeUserById(long id) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM ? WHERE id = ?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteUsersQuery)) {
             preparedStatement.setString(1, "users");
             preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
@@ -49,7 +55,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectUsersQuery)) {
             preparedStatement.setString(1, "users");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -63,7 +69,7 @@ public class UserDaoJDBCImpl implements UserDao {
         return userList;
     }
     public void cleanUsersTable() {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM ?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(cleanUsersQuery)) {
             preparedStatement.setString(1, "users");
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
