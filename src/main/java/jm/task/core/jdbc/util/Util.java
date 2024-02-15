@@ -13,7 +13,7 @@ import java.util.Properties;
 
 public class Util {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/pp_1_1_4";
+    private static final String URL = "jdbc:mysql://localhost:3306/db7";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "12345678";
 
@@ -24,7 +24,7 @@ public class Util {
             throw new RuntimeException(e);
         }
     }
-    public Session getSession() {
+    public static Session getSession() {
         Configuration configuration = new Configuration();
         Properties properties = new Properties();
         properties.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
@@ -32,7 +32,9 @@ public class Util {
         properties.put(Environment.USER, USERNAME);
         properties.put(Environment.PASS, PASSWORD);
         properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
-        properties.put(Environment.SHOW_SQL, "true");
+        properties.put(Environment.SHOW_SQL, "false");
+        properties.put(Environment.HBM2DDL_AUTO, "create");
+
 
         configuration.setProperties(properties);
 

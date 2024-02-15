@@ -12,10 +12,11 @@ import java.util.List;
 
 public class UserDaoHibernateImpl {
     private final Session session;
-    private static final String createUsersQuery = "CREATE TABLE IF NOT EXISTS users (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), lastName VARCHAR(255), age TINYINT)";
+    private static final String createUsersQuery = "CREATE TABLE IF NOT EXISTS users (id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), lastName VARCHAR(255), age SMALLINT)";
     private static final String dropUsersQuery = "DROP TABLE IF EXISTS users";
     private static final String selectUsersQuery = "FROM User";
     private static final String cleanUsersQuery = "DELETE FROM User";
+
 
     public UserDaoHibernateImpl() {
         this.session = new Util().getSession();
